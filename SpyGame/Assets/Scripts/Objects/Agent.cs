@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class Agent
 {
@@ -10,12 +11,17 @@ public class Agent
 	public AgentRank Rank { get; private set; }
 	public WorkRegion Region { get; private set; }
 
-	public Agent(Sprite portrait, int playerOwner, AgentTag tag, AgentRank rank, WorkRegion region)
+	public class Factory: Factory<Agent>
 	{
-		Portrait = portrait;
-		PlayerOwner = playerOwner;
-		Tag = tag;
-		Rank = rank;
-		Region = region;
+		public Agent Create(Sprite portrait, int playerOwner, AgentTag tag, AgentRank rank, WorkRegion region)
+		{
+			Agent result = Create();
+			result.Portrait = portrait;
+			result.PlayerOwner = playerOwner;
+			result.Tag = tag;
+			result.Rank = rank;
+			result.Region = region;
+			return result;
+		}
 	}
 }

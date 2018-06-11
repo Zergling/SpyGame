@@ -12,6 +12,10 @@ public class GameInstaller : MonoInstaller<GameInstaller>
     {
 		Container.BindInstance(_spriteConfig).AsSingle();
 
+		Container.BindFactory<Agent, Agent.Factory>();
+		Container.BindFactory<JournalEntry, JournalEntry.Factory>();
+		Container.BindFactory<Player, Player.Factory>();
+
 		Container.BindInstance(_windowsManager).AsSingle();
 		Container.BindInstance(_gameController).AsSingle();
     }
