@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b16d19e0970d1be4bacf6b46f056edab, type: 3}
   m_Name: SpriteConfig
   m_EditorClassIdentifier: 
-  _portraits:
+  _inspectorPortraits:
   - {fileID: 21300000, guid: b189715d2d08e0e49a6237a283a16d6a, type: 3}
   - {fileID: 21300000, guid: 9cf94eece66f8e547a5ddda60891b37b, type: 3}
   - {fileID: 21300000, guid: b391ac3855ac72a4e8f0466c1d7ff3c2, type: 3}

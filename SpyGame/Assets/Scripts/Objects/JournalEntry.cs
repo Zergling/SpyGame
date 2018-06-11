@@ -6,11 +6,11 @@ using Zenject;
 public class JournalEntry
 {
 	public int PlayerId { get; private set; }
-	public WorkRegion Region { get; private set; }
+	public int Region { get; private set; }
 
 	public class Factory: Factory<JournalEntry>
 	{
-		public JournalEntry Create(int id, WorkRegion region)
+		public JournalEntry Create(int id, int region)
 		{
 			JournalEntry result = Create();
 			result.PlayerId = id;
