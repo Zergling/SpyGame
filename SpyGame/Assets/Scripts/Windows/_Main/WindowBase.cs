@@ -12,25 +12,35 @@ public class WindowBase : MonoBehaviour
 
     public void Show()
     {
+		OnShowStart();
         gameObject.SetActive(true);
-        OnShow();
+		OnShowEnd();
     }
 
     public void Hide()
     {
+		OnHideStart();
         gameObject.SetActive(false);
-        OnHide();
+		OnHideEnd();
     }
 
     protected virtual void OnInit()
     {
     }
 
-    protected virtual void OnShow()
+    protected virtual void OnShowStart()
     {
     }
 
-    protected virtual void OnHide()
+	protected virtual void OnShowEnd()
+	{
+	}
+
+    protected virtual void OnHideStart()
     {
     }
+
+	protected virtual void OnHideEnd()
+	{
+	}
 }
