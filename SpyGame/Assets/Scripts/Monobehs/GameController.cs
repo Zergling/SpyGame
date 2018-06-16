@@ -17,6 +17,11 @@ public class GameController : MonoBehaviour
 
 	private void Awake()
 	{
+		
+	}
+
+	private void Start()
+	{
 		_windowsManager.Show<StartWindow>();
 	}
 

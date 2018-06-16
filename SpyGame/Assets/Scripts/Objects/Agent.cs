@@ -16,6 +16,12 @@ public class Agent
 		Tag = tag;
 	}
 
+	public void UpdateRankAndRegion(int rank, int region)
+	{
+		Rank = rank;
+		Region = region;
+	}
+
 	public class Factory: Factory<Agent>
 	{
 		public Agent Create(Sprite portrait, int playerOwner, AgentTag tag, int rank, int region)
@@ -26,6 +32,17 @@ public class Agent
 			result.Tag = tag;
 			result.Rank = rank;
 			result.Region = region;
+			return result;
+		}
+
+		public Agent Create(Agent agent)
+		{
+			Agent result = Create();
+			result.Portrait = agent.Portrait;
+			result.PlayerOwner = agent.PlayerOwner;
+			result.Tag = agent.Tag;
+			result.Rank = agent.Rank;
+			result.Region = agent.Region;
 			return result;
 		}
 	}

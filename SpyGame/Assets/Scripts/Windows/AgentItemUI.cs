@@ -6,14 +6,23 @@ using UnityEngine.UI;
 
 public class AgentItemUI : MonoBehaviour
 {
-	[SerializeField] private Image _portrait;
-	[SerializeField] private Image _back;
+	public bool interactable
+	{
+		get { return _button.interactable; }
+		set { _button.interactable = value; }
+	}
 
-	private Agent _info;
+	[SerializeField] private Button _button;
+	[SerializeField] private Image _portrait;
+	[SerializeField] protected Image _back;
+
+	public Agent Info { get; private set; }
 
 	public void UpdateInfo(Agent agent)
 	{
-		_info = agent;
-		_portrait.overrideSprite = _info.Portrait;
+		Info = agent;
+		_portrait.overrideSprite = Info.Portrait;
 	}
+
+	public virtual void OnClick() { }
 }

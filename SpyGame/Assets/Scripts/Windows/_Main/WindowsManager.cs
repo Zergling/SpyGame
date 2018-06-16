@@ -45,4 +45,12 @@ public class WindowsManager : MonoBehaviour
         WindowBase window = _allWindows[typeof(T)];
         window.Hide();
     }
+
+	public T GetWindow<T>() where T : WindowBase
+	{
+		if (_allWindows.ContainsKey(typeof(T)))
+			return (T)_allWindows[typeof(T)];
+
+		return null;
+	}
 }
