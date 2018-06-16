@@ -24,6 +24,12 @@ public class PlayerWindow : UpdatableWindowBase
 		_windowsManager.Show<PlayerAgentsWindow>(_player);
 	}
 
+	public void OnOppsAgentsButton()
+	{
+		Hide();
+		_windowsManager.Show<OpponentAgentsWindow>(_player);
+	}
+
 	public void OnEndTurnButton()
 	{
 		Hide();

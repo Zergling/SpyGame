@@ -24,5 +24,10 @@ public class AgentItemUI : MonoBehaviour
 		_portrait.overrideSprite = Info.Portrait;
 	}
 
+	public void UpdateInfo(Agent agent, int viewerId)
+	{
+		UpdateInfo(agent);
+	}
+
 	public virtual void OnClick() { }
 }

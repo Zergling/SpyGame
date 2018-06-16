@@ -54,5 +54,13 @@ public class GameController : MonoBehaviour
 		_activePlayer = _players[index];
 		_windowsManager.Show<PlayerWindow>(_activePlayer);
 	}
+
+	public List<Player> GetOpponents()
+	{
+		List<Player> opps = new List<Player>();
+		opps.AddRange(_players);
+		opps.Remove(_activePlayer);
+		return opps;
+	}
 #endregion Public
 }
