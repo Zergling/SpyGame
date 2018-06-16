@@ -24,7 +24,6 @@ public class PlayerAgentsWindow : UpdatableWindowBase
 
 	protected override void OnInit()
 	{
-		var items = _agentsItemsContainer.GetComponentsInChildren<AgentItemUI>(true);
 		int k = 0;
 		_agentsTable = new List<List<AgentItemUI>>();
 		
@@ -33,7 +32,7 @@ public class PlayerAgentsWindow : UpdatableWindowBase
 			_agentsTable.Add(new List<AgentItemUI>());
 			for (int j = 0; j < _gameConfig.agentsPerRegion; j++) 
 			{
-				_agentsTable[i].Add(items[k]);
+				_agentsTable[i].Add(_agentsList[k]);
 				k++;
 			}
 		}
