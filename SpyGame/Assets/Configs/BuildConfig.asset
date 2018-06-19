@@ -13,8 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   android:
     packageName: com.ZerglingJan.SpyGame
-    version: 0.0.4
-    versionCode: 4
+    version: 0.0.5
+    versionCode: 5
   iOS:
     bundle: 
     version: 
