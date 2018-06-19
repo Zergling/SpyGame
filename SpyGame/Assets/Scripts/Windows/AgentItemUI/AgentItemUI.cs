@@ -27,6 +27,10 @@ public class AgentItemUI : MonoBehaviour
 	public void UpdateInfo(Agent agent, int viewerId)
 	{
 		UpdateInfo(agent);
+		if (agent.SpyOwner == viewerId)
+			_back.color = Color.red;
+		else
+			_back.color = Color.white;
 	}
 
 	public virtual void OnClick() { }

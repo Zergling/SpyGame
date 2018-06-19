@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AgentTag
+public enum Region
 {
-	None = -1,
-	Player1Spy = 0,
-	Player2Spy = 1,
-	Player3Spy = 2,
-	Player4Spy = 3,
+	Unknown 		= -1,
+	SouthAmerica 	= 0,
+	Africa			= 1,
+	Asia 			= 2,
+	Europe 			= 3,
+	NearEast 		= 4,
 }

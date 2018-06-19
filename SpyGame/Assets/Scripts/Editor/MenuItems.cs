@@ -95,7 +95,7 @@ public static class MenuItems
 
 		BuildPlayerOptions buildOptions = new BuildPlayerOptions();
 		buildOptions.scenes = scenes;
-		buildOptions.locationPathName = string.Format("../Builds/Android/build-{0}-({1}).apk", newVersion, versionCode);
+		buildOptions.locationPathName = string.Format("../Builds/Android/{0}-{1}-({2}).apk", PlayerSettings.productName, newVersion, versionCode);
 		buildOptions.target = BuildTarget.Android;
 		buildOptions.options = BuildOptions.None;
 

@@ -25,7 +25,7 @@ public class OpponentAgentsWindow : UpdatableWindowBase
 	protected override void OnUpdateInfo(object info)
 	{
 		_activePlayer = (Player)info;
-		var opponents = _gameController.GetOpponents();
+		var opponents = _gameController.GetOpponents(_activePlayer);
 		for (int i = 0; i < _agentsPages.Count; i++)
 			_agentsPages[i].UpdateInfo(opponents[i], _activePlayer.Id);
 	}

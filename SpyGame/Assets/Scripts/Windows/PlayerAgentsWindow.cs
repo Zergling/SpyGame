@@ -45,7 +45,8 @@ public class PlayerAgentsWindow : UpdatableWindowBase
 		var agents = _player.Agents;
 		for (int i = 0; i < agents.Count; i++) 
 		{
-			var list = agents[i];
+			Region region = (Region)i;
+			var list = agents[region];
 			for (int j = 0; j < list.Count; j++) 
 			{
 				var agent = list[j];

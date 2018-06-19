@@ -7,16 +7,16 @@ public class Agent
 {
 	public Sprite Portrait { get; private set; }
 	public int PlayerOwner { get; private set; }
-	public AgentTag Tag { get; private set; }
+	public int SpyOwner { get; private set; }
 	public int Rank { get; private set; }
-	public int Region { get; private set; }
+	public Region Region { get; private set; }
 
-	public void SetTag(AgentTag tag)
+	public void SetSpy(int spyOwner)
 	{
-		Tag = tag;
+		SpyOwner = spyOwner;
 	}
 
-	public void UpdateRankAndRegion(int rank, int region)
+	public void UpdateInfo(int rank, Region region)
 	{
 		Rank = rank;
 		Region = region;
@@ -24,12 +24,12 @@ public class Agent
 
 	public class Factory: Factory<Agent>
 	{
-		public Agent Create(Sprite portrait, int playerOwner, AgentTag tag, int rank, int region)
+		public Agent Create(Sprite portrait, int playerOwner, int rank, Region region)
 		{
 			Agent result = Create();
 			result.Portrait = portrait;
 			result.PlayerOwner = playerOwner;
-			result.Tag = tag;
+			result.SpyOwner = -1;
 			result.Rank = rank;
 			result.Region = region;
 			return result;
@@ -40,7 +40,7 @@ public class Agent
 			Agent result = Create();
 			result.Portrait = agent.Portrait;
 			result.PlayerOwner = agent.PlayerOwner;
-			result.Tag = agent.Tag;
+			result.SpyOwner = agent.SpyOwner;
 			result.Rank = agent.Rank;
 			result.Region = agent.Region;
 			return result;

@@ -6,14 +6,14 @@ using Zenject;
 public class Player 
 {
 	public int Id { get; private set; }
-	public List<List<Agent>> Agents { get; private set; }
+	public Dictionary<Region, List<Agent>> Agents { get; private set; }
 	public List<JournalEntry> Journal { get; private set; }
 
-	private Agent.Factory _agentFactory;
+	private GameConfig _gameConfig;
 
-	public Player(Agent.Factory agentFactopry)
+	public Player(GameConfig gameConfig)
 	{
-		_agentFactory = agentFactopry;
+		_gameConfig = gameConfig;
 	}
 
 	public void SwapAgents(Agent one, Agent two)
@@ -25,10 +25,26 @@ public class Player
 		Agents[two.Region].Insert(two.Rank, one);
 
 		int oneRank = one.Rank;
-		int oneRegion = one.Region;
+		Region oneRegion = one.Region;
 
-		one.UpdateRankAndRegion(two.Rank, two.Region);
-		two.UpdateRankAndRegion(oneRank, oneRegion);
+		one.UpdateInfo(two.Rank, two.Region);
+		two.UpdateInfo(oneRank, oneRegion);
+	}
+
+	public List<Agent> GetNonSpyAgents(int rank)
+	{
+		List<Agent> result = new List<Agent>();
+
+		var spawnRegions = _gameConfig.SpySpawnRegions;
+		for (int i = 0; i < spawnRegions.Count; i++) 
+		{
+			Region region = (Region)i;
+			Agent agent = Agents[region][rank];
+			if (agent.SpyOwner == -1)
+				result.Add(agent);
+		}
+
+		return result;
 	}
 
 	public class Factory: Factory<Player> 
@@ -41,15 +57,16 @@ public class Player
 		{
 			Player result = Create();
 			result.Id = id;
-			result.Agents = new List<List<Agent>>();
+			result.Agents = new Dictionary<Region, List<Agent>>();
 			for (int i = 0; i < _gameConfig.regionsCount; i++) 
 			{
-				result.Agents.Add(new List<Agent>());
+				Region region = (Region)i;
+				result.Agents.Add(region, new List<Agent>());
 				for (int j = 0; j < _gameConfig.agentsPerRegion; j++) 
 				{
 					Sprite portrait = _spriteConfig.GetPortrait();
-					Agent agent = _agentFactory.Create(portrait, id, AgentTag.None, j, i);
-					result.Agents[i].Add(agent);
+					Agent agent = _agentFactory.Create(portrait, id, j, region);
+					result.Agents[region].Add(agent);
 				}
 			}
 

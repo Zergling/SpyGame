@@ -14,3 +14,4 @@ MonoBehaviour:
   playersCount: 4
   regionsCount: 5
   agentsPerRegion: 3
+  SpySpawnRegions: 000000000300000004000000
