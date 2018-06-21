@@ -92,5 +92,9 @@ public class GameController : MonoBehaviour
 		opps.Remove(player);
 		return opps;
 	}
+
+	public void SubmitMission(Player activePlayer, List<Agent> agentsInMission, Region region)
+	{
+	}
 #endregion Public
 }

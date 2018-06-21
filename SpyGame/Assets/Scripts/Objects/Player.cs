@@ -6,6 +6,7 @@ using Zenject;
 public class Player 
 {
 	public int Id { get; private set; }
+	public Sprite Background { get; private set; }
 	public Dictionary<Region, List<Agent>> Agents { get; private set; }
 	public List<JournalEntry> Journal { get; private set; }
 
@@ -57,6 +58,7 @@ public class Player
 		{
 			Player result = Create();
 			result.Id = id;
+			result.Background = _spriteConfig.GetBackground();
 			result.Agents = new Dictionary<Region, List<Agent>>();
 			for (int i = 0; i < _gameConfig.regionsCount; i++) 
 			{
