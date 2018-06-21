@@ -38,6 +38,8 @@ public class PlayerWindow : UpdatableWindowBase
 
 	public void OnJournalButton()
 	{
+		Hide();
+		_windowsManager.Show<JournalWindow>(_player);
 	}
 
 	public void OnEndTurnButton()

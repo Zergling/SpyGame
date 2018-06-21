@@ -17,6 +17,8 @@ public class OperationsWindow : UpdatableWindowBase
 	private int _level;
 	private List<Agent> _agentsInMission;
 
+	private SabotagePrepareInfo _sabotageInfo;
+
 	[Inject] private GameController _gameController;
 	[Inject] private GameConfig _gameConfig;
 
@@ -27,7 +29,7 @@ public class OperationsWindow : UpdatableWindowBase
 
 	protected override void OnInit()
 	{
-		_region = Region.SouthAmerica;
+		_region = Region.Unknown;
 		_level = 0;
 
 		int k = 0;
@@ -50,20 +52,39 @@ public class OperationsWindow : UpdatableWindowBase
 
 	protected override void OnUpdateInfo(object info)
 	{
-		_player = (Player)info;
-		for (int i = 0; i < _regionSelectors.Count; i++)
-			_regionSelectors[i].FillColor(Region.Unknown);
-
-		var agents = _player.Agents;
-		for (int i = 0; i < _gameConfig.regionsCount; i++) 
+		if (info is Player) 
 		{
-			Region region = (Region)i;
-			var list = agents[region];
-			for (int j = 0; j < list.Count; j++) 
+			Debug.Log("info is Player");
+			_sabotageInfo = null;
+			_player = (Player)info;
+			for (int i = 0; i < _regionSelectors.Count; i++)
+				_regionSelectors[i].FillColor(Region.Unknown);
+
+			var agents = _player.Agents;
+			for (int i = 0; i < _gameConfig.regionsCount; i++)
 			{
-				var agent = list[j];
-				_agentsTable[region][j].UpdateInfo(agent);
+				Region region = (Region)i;
+				var list = agents[region];
+				for (int j = 0; j < list.Count; j++)
+				{
+					var agent = list[j];
+					_agentsTable[region][j].UpdateInfo(agent);
+				}
 			}
+		}
+		else if (info is SabotagePrepareInfo)
+		{
+			Debug.Log("info is SabotagePrepareInfo");
+			_sabotageInfo = (SabotagePrepareInfo)info;
+			_player = _sabotageInfo.Player;
+			_region = _sabotageInfo.Entry.Region;
+			_level = 0;
+
+			for (int i = 0; i < _regionSelectors.Count; i++)
+				_regionSelectors[i].FillColor(_region);
+			
+			UpdateAgentsInMission(_region, _level);
+			UpdateAgentsTable();
 		}
 	}
 
@@ -77,6 +98,9 @@ public class OperationsWindow : UpdatableWindowBase
 	public void OnSecretLevelButtonClick(int level)
 	{
 		_level = level;
+		if (_region == Region.Unknown)
+			return;
+
 		UpdateAgentsInMission(_region, _level);
 		UpdateAgentsTable();
 	}
@@ -86,14 +110,24 @@ public class OperationsWindow : UpdatableWindowBase
 		_region = region;
 		UpdateAgentsInMission(_region, _level);
 		UpdateAgentsTable();
-		for (int i = 0; i < _regionSelectors.Count; i++)
-			_regionSelectors[i].FillColor(_region);
 	}
 
 	public void OnSubmitButton()
 	{
-		_gameController.SubmitMission(_player, _agentsInMission, _region);
+		if (_region == Region.Unknown)
+			return;
+
+		if (_sabotageInfo != null) 
+		{
+			_gameController.SubmitSabotage(_player, _sabotageInfo.Entry.PlayerId, _agentsInMission, _region);
+			_sabotageInfo.Entry.MarkSabotaged();
+		}
+		else
+			_gameController.SubmitMission(_player, _agentsInMission, _region);
+		
 		_agentsInMission.Clear();
+		_region = Region.Unknown;
+		_level = 0;
 		Hide();
 	}
 
@@ -129,37 +163,39 @@ public class OperationsWindow : UpdatableWindowBase
 
 		leftRegion = (Region)leftInt;
 		rightRegion = (Region)rightInt;
+
+		var agents = _player.Agents;
 		switch (level) 
 		{
 			case 0:
-				_agentsInMission.Add(_agentsTable[region][0].Info);
-				_agentsInMission.Add(_agentsTable[region][1].Info);
+				_agentsInMission.Add(agents[region][0]);
+				_agentsInMission.Add(agents[region][1]);
 				break;
 
 			case 1:
-				_agentsInMission.Add(_agentsTable[region][0].Info);
-				_agentsInMission.Add(_agentsTable[region][1].Info);
-				_agentsInMission.Add(_agentsTable[rightRegion][0].Info);
-				_agentsInMission.Add(_agentsTable[leftRegion][0].Info);
+				_agentsInMission.Add(agents[region][0]);
+				_agentsInMission.Add(agents[region][1]);
+				_agentsInMission.Add(agents[rightRegion][0]);
+				_agentsInMission.Add(agents[leftRegion][0]);
 				break;
 
 			case 2:
-				_agentsInMission.Add(_agentsTable[region][0].Info);
-				_agentsInMission.Add(_agentsTable[region][1].Info);
-				_agentsInMission.Add(_agentsTable[region][2].Info);
-				_agentsInMission.Add(_agentsTable[rightRegion][0].Info);
-				_agentsInMission.Add(_agentsTable[rightRegion][1].Info);
-				_agentsInMission.Add(_agentsTable[leftRegion][0].Info);
-				_agentsInMission.Add(_agentsTable[leftRegion][1].Info);
+				_agentsInMission.Add(agents[region][0]);
+				_agentsInMission.Add(agents[region][1]);
+				_agentsInMission.Add(agents[region][2]);
+				_agentsInMission.Add(agents[rightRegion][0]);
+				_agentsInMission.Add(agents[rightRegion][1]);
+				_agentsInMission.Add(agents[leftRegion][0]);
+				_agentsInMission.Add(agents[leftRegion][1]);
 				break;
 
 			case 3:
-				_agentsInMission.Add(_agentsTable[region][1].Info);
-				_agentsInMission.Add(_agentsTable[region][2].Info);
-				_agentsInMission.Add(_agentsTable[rightRegion][1].Info);
-				_agentsInMission.Add(_agentsTable[rightRegion][2].Info);
-				_agentsInMission.Add(_agentsTable[leftRegion][1].Info);
-				_agentsInMission.Add(_agentsTable[leftRegion][2].Info);
+				_agentsInMission.Add(agents[region][1]);
+				_agentsInMission.Add(agents[region][2]);
+				_agentsInMission.Add(agents[rightRegion][1]);
+				_agentsInMission.Add(agents[rightRegion][2]);
+				_agentsInMission.Add(agents[leftRegion][1]);
+				_agentsInMission.Add(agents[leftRegion][2]);
 
 				for (int i = 0; i < _gameConfig.regionsCount; i++) 
 				{

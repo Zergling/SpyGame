@@ -1,16 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ObjectPoolConfigInternal;
 
-public class ObjectPoolConfig : MonoBehaviour {
+namespace ObjectPoolConfigInternal
+{
+	[Serializable]
+	public class PoolObject
+	{
+		public GameObject poolObject;
+		public int count;
+	}
+}
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public class ObjectPoolConfig : ScriptableObject
+{
+	public PoolObject journalPage;
 }

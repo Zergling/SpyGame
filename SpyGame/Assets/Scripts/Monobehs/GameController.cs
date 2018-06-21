@@ -10,8 +10,10 @@ public class GameController : MonoBehaviour
 
 
 
-	[Inject] private Player.Factory _playerFactory;
+
 	[Inject] private WindowsManager _windowsManager;
+	[Inject] private Player.Factory _playerFactory;
+	[Inject] private JournalEntry.Factory _journalEntryFactory;
 
 	[Inject] private GameConfig _gameConfig;
 
@@ -55,6 +57,19 @@ public class GameController : MonoBehaviour
 			rankTwoAgents[index].SetSpy(player.Id);
 		}
 	}
+
+	private Player GetPlayer(int id)
+	{
+		for (int i = 0; i < _players.Count; i++) 
+		{
+			var player = _players[i];
+			if (player.Id == id)
+				return player;
+		}
+
+		throw new UnityException("player with id " + id.ToString() + " does not exist");
+		return null;
+	}
 #endregion Private
 
 #region Public
@@ -95,6 +110,23 @@ public class GameController : MonoBehaviour
 
 	public void SubmitMission(Player activePlayer, List<Agent> agentsInMission, Region region)
 	{
+		activePlayer.AddJournalEntry(_journalEntryFactory.Create(activePlayer.Id, activePlayer.Id, JournalEntryType.MyMission, region));
+		for (int i = 0; i < agentsInMission.Count; i++) 
+		{
+			var agent = agentsInMission[i];
+			if (agent.SpyOwner != -1) 
+			{
+				Player player = GetPlayer(agent.SpyOwner);
+				player.AddJournalEntry(_journalEntryFactory.Create(player.Id, activePlayer.Id, JournalEntryType.OtherPlayerMission, region));
+			}
+		}
+	}
+
+	public void SubmitSabotage(Player activePlayer, int sabotagedPlayerId, List<Agent> agentsInMission, Region region)
+	{
+		Player sabotagedPlayer = GetPlayer(sabotagedPlayerId);
+		sabotagedPlayer.AddJournalEntry(_journalEntryFactory.Create(sabotagedPlayer.Id, sabotagedPlayer.Id, JournalEntryType.Sabotage, region));
+		SubmitMission(activePlayer, agentsInMission, region);
 	}
 #endregion Public
 }

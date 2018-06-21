@@ -8,11 +8,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 219db28694b019141ae276b935883dd1, type: 3}
-  m_Name: GameConfig
+  m_Script: {fileID: 11500000, guid: c7e895ad748838c47bedec267b593345, type: 3}
+  m_Name: ObjectPoolConfig
   m_EditorClassIdentifier: 
-  playersCount: 4
-  regionsCount: 5
-  agentsPerRegion: 3
-  journalEntriesPerPage: 4
-  SpySpawnRegions: 000000000100000002000000
+  journalPage:
+    poolObject: {fileID: 1401249638246960, guid: d7c5c2cb290cf9040ad29ff5bbd21ed2,
+      type: 2}
+    count: 20

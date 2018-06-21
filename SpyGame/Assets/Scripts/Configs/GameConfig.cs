@@ -7,6 +7,7 @@ public class GameConfig : ScriptableObject
 	public int playersCount;
 	public int regionsCount;
 	public int agentsPerRegion;
+	public int journalEntriesPerPage;
 
 	public List<Region> SpySpawnRegions;
 }

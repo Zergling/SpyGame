@@ -11,3 +11,11 @@ public enum Region
 	Europe 			= 3,
 	NearEast 		= 4,
 }
+
+public enum JournalEntryType
+{
+	Unknown = -1,
+	MyMission = 0,
+	OtherPlayerMission = 1,
+	Sabotage = 2,
+}

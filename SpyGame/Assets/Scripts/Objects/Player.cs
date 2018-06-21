@@ -48,6 +48,11 @@ public class Player
 		return result;
 	}
 
+	public void AddJournalEntry(JournalEntry entry)
+	{
+		Journal.Insert(0, entry);
+	}
+
 	public class Factory: Factory<Player> 
 	{
 		[Inject] private Agent.Factory _agentFactory;

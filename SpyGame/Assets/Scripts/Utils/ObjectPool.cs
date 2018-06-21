@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class ObjectPool : MonoBehaviour 
+public class ObjectPool 
 {
-	private AgentItemPool _agentItemPool;
+	private JournalPagePool _journalPagePool;
 
-	public ObjectPool(AgentItemPool agentItemPool)
+	[Inject] private MapData _mapData;
+
+	public ObjectPool(JournalPagePool journalPagePool)
 	{
-		_agentItemPool = agentItemPool;
+		_journalPagePool = journalPagePool;
 	}
 
-	public AgentItemUI GetAgentItem()
+	public JournalPage GetJournalPage()
 	{
-		return _agentItemPool.Spawn();
+		return _journalPagePool.Spawn();
 	}
 
-	public void ReturnAgentItem(AgentItemUI item)
+	public void ReturnJournalPage(JournalPage page)
 	{
-		_agentItemPool.Despawn(item);
+		page.transform.SetParent(_mapData.JournalPageContainer);
+		_journalPagePool.Despawn(page);
 	}
 
-	public class AgentItemPool: MonoMemoryPool<AgentItemUI> {}
+	public class JournalPagePool: MonoMemoryPool<JournalPage> {}
 }
