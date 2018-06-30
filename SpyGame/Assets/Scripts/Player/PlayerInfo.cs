@@ -1,0 +1,90 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Zenject;
+
+public class PlayerInfo 
+{
+	public int Id { get; private set; }
+	public Sprite Background { get; private set; }
+	public Dictionary<Region, List<AgentInfo>> Agents { get; private set; }
+	public List<JournalEntry> Journal { get; private set; }
+	public List<MissionInfo> Missions { get; private set; }
+
+	private GameConfig _gameConfig;
+
+	public PlayerInfo(GameConfig gameConfig)
+	{
+		_gameConfig = gameConfig;
+	}
+
+	public void SwapAgents(AgentInfo one, AgentInfo two)
+	{
+		Agents[one.Region].RemoveAt(one.Rank);
+		Agents[one.Region].Insert(one.Rank, two);
+
+		Agents[two.Region].RemoveAt(two.Rank);
+		Agents[two.Region].Insert(two.Rank, one);
+
+		int oneRank = one.Rank;
+		Region oneRegion = one.Region;
+
+		one.UpdateInfo(two.Rank, two.Region);
+		two.UpdateInfo(oneRank, oneRegion);
+	}
+
+	public List<AgentInfo> GetNonSpyAgents(int rank)
+	{
+		List<AgentInfo> result = new List<AgentInfo>();
+
+		var spawnRegions = _gameConfig.SpySpawnRegions;
+		for (int i = 0; i < spawnRegions.Count; i++) 
+		{
+			Region region = (Region)i;
+			AgentInfo agent = Agents[region][rank];
+			if (agent.SpyOwner == -1)
+				result.Add(agent);
+		}
+
+		return result;
+	}
+
+	public void AddJournalEntry(JournalEntry entry)
+	{
+		Journal.Insert(0, entry);
+	}
+
+	public void AddMission(MissionInfo mission)
+	{
+		Missions.Insert(0, mission);
+	}
+
+	public class Factory: Factory<PlayerInfo> 
+	{
+		[Inject] private AgentInfo.Factory _agentFactory;
+		[Inject] private SpriteConfig _spriteConfig;
+		[Inject] private GameConfig _gameConfig;
+
+		public PlayerInfo Create(int id)
+		{
+			PlayerInfo result = Create();
+			result.Id = id;
+			result.Background = _spriteConfig.GetBackground();
+			result.Agents = new Dictionary<Region, List<AgentInfo>>();
+			for (int i = 0; i < _gameConfig.regionsCount; i++) 
+			{
+				Region region = (Region)i;
+				result.Agents.Add(region, new List<AgentInfo>());
+				for (int j = 0; j < _gameConfig.agentsPerRegion; j++) 
+				{
+					Sprite portrait = _spriteConfig.GetPortrait();
+					AgentInfo agent = _agentFactory.Create(portrait, id, j, region);
+					result.Agents[region].Add(agent);
+				}
+			}
+
+			result.Journal = new List<JournalEntry>();
+			return result;
+		}
+	}
+}

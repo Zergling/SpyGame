@@ -8,8 +8,8 @@ public class OpponentAgentsWindow : UpdatableWindowBase
 	[SerializeField] private Transform _pagesContainer;
 	[SerializeField] private List<AgentsPage> _agentsPages;
 
-	private Player _activePlayer;
-	private List<Player> _players;
+	private PlayerInfo _activePlayer;
+	private List<PlayerInfo> _players;
 
 	public Transform PagesContainer { get { return _pagesContainer; } }
 	public List<AgentsPage> AgentsPages { get { return _agentsPages; } }
@@ -24,7 +24,7 @@ public class OpponentAgentsWindow : UpdatableWindowBase
 
 	protected override void OnUpdateInfo(object info)
 	{
-		_activePlayer = (Player)info;
+		_activePlayer = (PlayerInfo)info;
 		var opponents = _gameController.GetOpponents(_activePlayer);
 		for (int i = 0; i < _agentsPages.Count; i++)
 			_agentsPages[i].UpdateInfo(opponents[i], _activePlayer.Id);

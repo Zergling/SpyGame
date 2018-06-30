@@ -5,14 +5,14 @@ using Zenject;
 
 public class GameController : MonoBehaviour 
 {
-	private Player _activePlayer;
-	private List<Player> _players;
+	public int Turn { get; private set; }
+	public PlayerInfo ActivePlayer { get; private set; }
 
+	private List<PlayerInfo> _players;
 
-
-
+	// injects
 	[Inject] private WindowsManager _windowsManager;
-	[Inject] private Player.Factory _playerFactory;
+	[Inject] private PlayerInfo.Factory _playerFactory;
 	[Inject] private JournalEntry.Factory _journalEntryFactory;
 
 	[Inject] private GameConfig _gameConfig;
@@ -39,7 +39,7 @@ public class GameController : MonoBehaviour
 			var opponents = GetOpponents(player);
 
 			int index;
-			Player rankOneSpy, rankTwoSpy;
+			PlayerInfo rankOneSpy, rankTwoSpy;
 
 			index = Random.Range(0, opponents.Count);
 			rankOneSpy = opponents[index];
@@ -58,7 +58,7 @@ public class GameController : MonoBehaviour
 		}
 	}
 
-	private Player GetPlayer(int id)
+	private PlayerInfo GetPlayer(int id)
 	{
 		for (int i = 0; i < _players.Count; i++) 
 		{
@@ -75,58 +75,37 @@ public class GameController : MonoBehaviour
 #region Public
 	public void StartNewGame()
 	{
-		_players = new List<Player>();
+		_players = new List<PlayerInfo>();
 		for (int i = 1; i <= _gameConfig.playersCount; i++) 
 		{
-			Player player = _playerFactory.Create(i);
+			PlayerInfo player = _playerFactory.Create(i);
 			_players.Add(player);
 		}
 
 		SpawnSpies();
-		_activePlayer = _players[0];
+		ActivePlayer = _players[0];
 		_windowsManager.Hide<StartWindow>();
-		_windowsManager.Show<PlayerWindow>(_activePlayer);
+		_windowsManager.Show<PlayerWindow>();
 	}
 
 	public void EndTurn()
 	{
-		int index = _players.IndexOf(_activePlayer);
+		int index = _players.IndexOf(ActivePlayer);
 		index++;
 
 		if (index >= _players.Count)
 			index = 0;
 
-		_activePlayer = _players[index];
-		_windowsManager.Show<PlayerWindow>(_activePlayer);
+		ActivePlayer = _players[index];
+		_windowsManager.Show<PlayerWindow>(ActivePlayer);
 	}
 
-	public List<Player> GetOpponents(Player player)
+	public List<PlayerInfo> GetOpponents(PlayerInfo player)
 	{
-		List<Player> opps = new List<Player>();
+		List<PlayerInfo> opps = new List<PlayerInfo>();
 		opps.AddRange(_players);
 		opps.Remove(player);
 		return opps;
-	}
-
-	public void SubmitMission(Player activePlayer, List<Agent> agentsInMission, Region region)
-	{
-		activePlayer.AddJournalEntry(_journalEntryFactory.Create(activePlayer.Id, activePlayer.Id, JournalEntryType.MyMission, region));
-		for (int i = 0; i < agentsInMission.Count; i++) 
-		{
-			var agent = agentsInMission[i];
-			if (agent.SpyOwner != -1) 
-			{
-				Player player = GetPlayer(agent.SpyOwner);
-				player.AddJournalEntry(_journalEntryFactory.Create(player.Id, activePlayer.Id, JournalEntryType.OtherPlayerMission, region));
-			}
-		}
-	}
-
-	public void SubmitSabotage(Player activePlayer, int sabotagedPlayerId, List<Agent> agentsInMission, Region region)
-	{
-		Player sabotagedPlayer = GetPlayer(sabotagedPlayerId);
-		sabotagedPlayer.AddJournalEntry(_journalEntryFactory.Create(sabotagedPlayer.Id, sabotagedPlayer.Id, JournalEntryType.Sabotage, region));
-		SubmitMission(activePlayer, agentsInMission, region);
 	}
 #endregion Public
 }

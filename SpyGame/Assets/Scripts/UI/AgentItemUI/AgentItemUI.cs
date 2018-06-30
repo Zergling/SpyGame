@@ -16,16 +16,16 @@ public class AgentItemUI : MonoBehaviour
 	[SerializeField] private Image _portrait;
 	[SerializeField] protected Image _back;
 
-	public Agent Info { get; private set; }
+	public AgentInfo Info { get; private set; }
 
-	public void UpdateInfo(Agent agent)
+	public void UpdateInfo(AgentInfo agent)
 	{
 		Info = agent;
 		_portrait.overrideSprite = Info.Portrait;
 		_back.color = Color.white;
 	}
 
-	public void UpdateInfo(Agent agent, int viewerId)
+	public void UpdateInfo(AgentInfo agent, int viewerId)
 	{
 		UpdateInfo(agent);
 		if (agent.SpyOwner == viewerId)
@@ -34,7 +34,7 @@ public class AgentItemUI : MonoBehaviour
 			_back.color = Color.white;
 	}
 
-	public void UpdateInfo(Agent agent, bool isInMission)
+	public void UpdateInfo(AgentInfo agent, bool isInMission)
 	{
 		UpdateInfo(agent);
 		if (isInMission)

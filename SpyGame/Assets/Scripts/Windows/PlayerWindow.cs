@@ -8,13 +8,13 @@ public class PlayerWindow : UpdatableWindowBase
 {
 	[SerializeField] private Text _titleText;
 
-	private Player _player;
+	private PlayerInfo _player;
 
 	[Inject] private GameController _gameController;
 
 	protected override void OnUpdateInfo(object info)
 	{
-		_player = (Player)info;
+		_player = (PlayerInfo)info;
 		_titleText.text = string.Format("Player {0}", _player.Id);
 	}
 

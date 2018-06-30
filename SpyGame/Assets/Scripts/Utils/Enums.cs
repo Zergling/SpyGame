@@ -14,8 +14,16 @@ public enum Region
 
 public enum JournalEntryType
 {
-	Unknown = -1,
-	MyMission = 0,
-	OtherPlayerMission = 1,
+	None = -1,
+	Mission = 0,
+	SpyInfo = 1,
 	Sabotage = 2,
+}
+
+public enum SecurityLevel
+{
+	A = 0,
+	B = 1,
+	C = 2,
+	D = 3,
 }

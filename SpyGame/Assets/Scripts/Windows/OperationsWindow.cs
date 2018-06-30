@@ -12,10 +12,10 @@ public class OperationsWindow : UpdatableWindowBase
 	[SerializeField] private Transform _agentsContainer;
 
 	private Dictionary<Region, List<AgentItemUI>> _agentsTable;
-	private Player _player;
+	private PlayerInfo _player;
 	private Region _region;
 	private int _level;
-	private List<Agent> _agentsInMission;
+	private List<AgentInfo> _agentsInMission;
 
 	private SabotagePrepareInfo _sabotageInfo;
 
@@ -45,18 +45,18 @@ public class OperationsWindow : UpdatableWindowBase
 			}
 		}
 
-		_agentsInMission = new List<Agent>();
+		_agentsInMission = new List<AgentInfo>();
 		for (int i = 0; i < _regionSelectors.Count; i++)
 			_regionSelectors[i].UpdateInfo(this);
 	}
 
 	protected override void OnUpdateInfo(object info)
 	{
-		if (info is Player) 
+		if (info is PlayerInfo) 
 		{
 			Debug.Log("info is Player");
 			_sabotageInfo = null;
-			_player = (Player)info;
+			_player = (PlayerInfo)info;
 			for (int i = 0; i < _regionSelectors.Count; i++)
 				_regionSelectors[i].FillColor(Region.Unknown);
 

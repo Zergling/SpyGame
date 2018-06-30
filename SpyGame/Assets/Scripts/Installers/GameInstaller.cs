@@ -31,10 +31,10 @@ public class GameInstaller : MonoInstaller<GameInstaller>
 		Container.BindInstance(_spriteConfig).AsSingle();
 		Container.BindInstance(_gameConfig).AsSingle();
 
-		Container.BindFactory<Agent, Agent.Factory>();
+		Container.BindFactory<AgentInfo, AgentInfo.Factory>();
 		Container.BindFactory<SabotagePrepareInfo, SabotagePrepareInfo.Factory>();
 		Container.BindFactory<JournalEntry, JournalEntry.Factory>();
-		Container.BindFactory<Player, Player.Factory>();
+		Container.BindFactory<PlayerInfo, PlayerInfo.Factory>();
 
 		Container.BindInstance(_windowsManager).AsSingle();
 		Container.BindInstance(_gameController).AsSingle();

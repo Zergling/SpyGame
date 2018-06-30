@@ -33,7 +33,7 @@ public class AgentsPage : MonoBehaviour
 		}
 	}
 
-	public void UpdateInfo (Player player, int viewerId)
+	public void UpdateInfo (PlayerInfo player, int viewerId)
 	{
 		_title.text = string.Format("Player {0} agents", player.Id);
 		var agents = player.Agents;

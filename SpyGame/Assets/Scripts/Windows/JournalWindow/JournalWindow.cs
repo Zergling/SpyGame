@@ -7,7 +7,7 @@ public class JournalWindow : UpdatableWindowBase
 {
 	[SerializeField] private Transform _pagesContainer;
 
-	private Player _player;
+	private PlayerInfo _player;
 	private List<JournalPage> _pages;
 	private List<JournalItemUI> _items;
 
@@ -28,7 +28,7 @@ public class JournalWindow : UpdatableWindowBase
 	protected override void OnUpdateInfo(object info)
 	{
 		_isRedirected = false;
-		_player = (Player)info;
+		_player = (PlayerInfo)info;
 		int entriesCount = _player.Journal.Count;
 		int pagesCount = (entriesCount % _gameConfig.journalEntriesPerPage == 0) ? entriesCount / _gameConfig.journalEntriesPerPage : (entriesCount / _gameConfig.journalEntriesPerPage) + 1;
 		for (int i = 0; i < pagesCount; i++) 

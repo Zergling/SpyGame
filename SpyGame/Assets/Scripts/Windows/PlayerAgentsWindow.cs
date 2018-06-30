@@ -12,7 +12,7 @@ public class PlayerAgentsWindow : UpdatableWindowBase
 	[SerializeField] private List<AgentItemUI> _agentsList;
 
 	private bool _isExchangeMode;
-	private Player _player;
+	private PlayerInfo _player;
 
 	private PlayerAgentItemUI _first;
 	private PlayerAgentItemUI _second;
@@ -40,7 +40,7 @@ public class PlayerAgentsWindow : UpdatableWindowBase
 
 	protected override void OnUpdateInfo(object info)
 	{
-		_player = (Player)info;
+		_player = (PlayerInfo)info;
 
 		var agents = _player.Agents;
 		for (int i = 0; i < agents.Count; i++) 
