@@ -14,25 +14,15 @@ public class GameInstaller : MonoInstaller<GameInstaller>
 
     public override void InstallBindings()
     {
-		_spriteConfig.Init();
-
 		Container.BindInstance(_mapData).AsSingle();
-
-		PoolObject poolObject;
-
-		poolObject = _objectPoolConfig.journalPage;
-		Container.BindMemoryPool<JournalPage, ObjectPool.JournalPagePool>()
-			.WithInitialSize(poolObject.count)
-			.FromComponentInNewPrefab(poolObject.poolObject)
-			.UnderTransform(_mapData.JournalPageContainer);
-
-		Container.Bind<ObjectPool>().AsSingle();
 
 		Container.BindInstance(_spriteConfig).AsSingle();
 		Container.BindInstance(_gameConfig).AsSingle();
 
+		Container.Bind<ObjectPool>().AsSingle();
+
 		Container.BindFactory<AgentInfo, AgentInfo.Factory>();
-		Container.BindFactory<SabotagePrepareInfo, SabotagePrepareInfo.Factory>();
+		Container.BindFactory<SabotageInfo, SabotageInfo.Factory>();
 		Container.BindFactory<JournalEntry, JournalEntry.Factory>();
 		Container.BindFactory<PlayerInfo, PlayerInfo.Factory>();
 

@@ -14,10 +14,17 @@ public class SpriteManager
 	public SpriteManager (SpriteConfig spriteConfig)
 	{
 		_spriteConfig = spriteConfig;
+
+		_unusedPortraits = new List<Sprite>(_spriteConfig.portraits);
+		_usedPortraits = new List<Sprite>();
 	}
 
 	public Sprite GetRandomPortrait()
 	{
-		return null;
+		int index = Random.Range(0, _unusedPortraits.Count);
+		Sprite result = _unusedPortraits[index];
+		_unusedPortraits.Remove(result);
+		_usedPortraits.Add(result);
+		return result;
 	}
 }

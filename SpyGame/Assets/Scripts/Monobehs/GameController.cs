@@ -5,7 +5,7 @@ using Zenject;
 
 public class GameController : MonoBehaviour 
 {
-	public int Turn { get; private set; }
+	public int Round { get; private set; }
 	public PlayerInfo ActivePlayer { get; private set; }
 
 	private List<PlayerInfo> _players;
@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
 
 	private void Awake()
 	{
-		
+		Round = 1;
 	}
 
 	private void Start()
@@ -85,7 +85,7 @@ public class GameController : MonoBehaviour
 		SpawnSpies();
 		ActivePlayer = _players[0];
 		_windowsManager.Hide<StartWindow>();
-		_windowsManager.Show<PlayerWindow>();
+		_windowsManager.Show<PlayerTurnWindow>();
 	}
 
 	public void EndTurn()
@@ -93,11 +93,14 @@ public class GameController : MonoBehaviour
 		int index = _players.IndexOf(ActivePlayer);
 		index++;
 
-		if (index >= _players.Count)
+		if (index >= _players.Count) 
+		{
 			index = 0;
+			Round++;
+		}
 
 		ActivePlayer = _players[index];
-		_windowsManager.Show<PlayerWindow>(ActivePlayer);
+		_windowsManager.Show<PlayerTurnWindow>(ActivePlayer);
 	}
 
 	public List<PlayerInfo> GetOpponents(PlayerInfo player)

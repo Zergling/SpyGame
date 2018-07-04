@@ -91,7 +91,7 @@ public static class MenuItems
 
 		buildConfig.android.version = newVersion;
 		buildConfig.android.versionCode = versionCode.ToString();
-		buildConfig.SetDirty();
+		EditorUtility.SetDirty(buildConfig);
 
 		BuildPlayerOptions buildOptions = new BuildPlayerOptions();
 		buildOptions.scenes = scenes;

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class SabotagePrepareInfo
+public class SabotageInfo
 {
 	public PlayerInfo Player { get; private set; }
 	public JournalEntry Entry { get; private set; }
 
-	public class Factory: Factory<SabotagePrepareInfo> 
+	public class Factory: Factory<SabotageInfo> 
 	{
-		public SabotagePrepareInfo Create(PlayerInfo player, JournalEntry entry)
+		public SabotageInfo Create(PlayerInfo player, JournalEntry entry)
 		{
-			SabotagePrepareInfo result = Create();
+			SabotageInfo result = Create();
 			result.Player = player;
 			result.Entry = entry;
 			return result;

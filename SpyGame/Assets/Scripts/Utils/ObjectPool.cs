@@ -5,25 +5,13 @@ using Zenject;
 
 public class ObjectPool 
 {
-	private JournalPagePool _journalPagePool;
-
 	[Inject] private MapData _mapData;
 
-	public ObjectPool(JournalPagePool journalPagePool)
+	public ObjectPool()
 	{
-		_journalPagePool = journalPagePool;
 	}
 
-	public JournalPage GetJournalPage()
+	public void BindAll()
 	{
-		return _journalPagePool.Spawn();
 	}
-
-	public void ReturnJournalPage(JournalPage page)
-	{
-		page.transform.SetParent(_mapData.JournalPageContainer);
-		_journalPagePool.Despawn(page);
-	}
-
-	public class JournalPagePool: MonoMemoryPool<JournalPage> {}
 }

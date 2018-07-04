@@ -6,7 +6,7 @@ using Zenject;
 public class PlayerInfo 
 {
 	public int Id { get; private set; }
-	public Sprite Background { get; private set; }
+	public Color Background { get; private set; }
 	public Dictionary<Region, List<AgentInfo>> Agents { get; private set; }
 	public List<JournalEntry> Journal { get; private set; }
 	public List<MissionInfo> Missions { get; private set; }
@@ -62,14 +62,13 @@ public class PlayerInfo
 	public class Factory: Factory<PlayerInfo> 
 	{
 		[Inject] private AgentInfo.Factory _agentFactory;
-		[Inject] private SpriteConfig _spriteConfig;
+		[Inject] private SpriteManager _spriteManager;
 		[Inject] private GameConfig _gameConfig;
 
 		public PlayerInfo Create(int id)
 		{
 			PlayerInfo result = Create();
 			result.Id = id;
-			result.Background = _spriteConfig.GetBackground();
 			result.Agents = new Dictionary<Region, List<AgentInfo>>();
 			for (int i = 0; i < _gameConfig.regionsCount; i++) 
 			{
@@ -77,7 +76,7 @@ public class PlayerInfo
 				result.Agents.Add(region, new List<AgentInfo>());
 				for (int j = 0; j < _gameConfig.agentsPerRegion; j++) 
 				{
-					Sprite portrait = _spriteConfig.GetPortrait();
+					Sprite portrait = _spriteManager.GetRandomPortrait();
 					AgentInfo agent = _agentFactory.Create(portrait, id, j, region);
 					result.Agents[region].Add(agent);
 				}

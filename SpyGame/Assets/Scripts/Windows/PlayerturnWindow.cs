@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class PlayerWindow : UpdatableWindowBase
+public class PlayerTurnWindow : UpdatableWindowBase
 {
 	[SerializeField] private Text _titleText;
 
@@ -21,25 +21,21 @@ public class PlayerWindow : UpdatableWindowBase
 	public void OnMyAgentsButton()
 	{
 		Hide();
-		_windowsManager.Show<PlayerAgentsWindow>(_player);
 	}
 
 	public void OnOppsAgentsButton()
 	{
 		Hide();
-		_windowsManager.Show<OpponentAgentsWindow>(_player);
 	}
 
 	public void OnMissionButton()
 	{
 		Hide();
-		_windowsManager.Show<OperationsWindow>(_player);
 	}
 
 	public void OnJournalButton()
 	{
 		Hide();
-		_windowsManager.Show<JournalWindow>(_player);
 	}
 
 	public void OnEndTurnButton()

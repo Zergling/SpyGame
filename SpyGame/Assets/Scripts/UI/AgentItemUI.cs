@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class AgentItemUI : MonoBehaviour
 {
+	public Button.ButtonClickedEvent _onClick { get { return _button.onClick; } }
+
 	public bool interactable
 	{
 		get { return _button.interactable; }
@@ -42,6 +44,4 @@ public class AgentItemUI : MonoBehaviour
 		else
 			_back.color = Color.white;
 	}
-
-	public virtual void OnClick() { }
 }
