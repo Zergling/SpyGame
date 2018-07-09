@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b16d19e0970d1be4bacf6b46f056edab, type: 3}
   m_Name: SpriteConfig
   m_EditorClassIdentifier: 
-  _inspectorPortraits:
+  portraits:
   - {fileID: 21300000, guid: b189715d2d08e0e49a6237a283a16d6a, type: 3}
   - {fileID: 21300000, guid: 9cf94eece66f8e547a5ddda60891b37b, type: 3}
   - {fileID: 21300000, guid: b391ac3855ac72a4e8f0466c1d7ff3c2, type: 3}
@@ -142,12 +142,3 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a2e7b377feeea3a49a79225f0e12f4a1, type: 3}
   - {fileID: 21300000, guid: e9a2bfc68f6d1a44dba32f5b0416420c, type: 3}
   - {fileID: 21300000, guid: 450578bc3ee86c447be9911f0f197e0e, type: 3}
-  _inspectorBackgrounds:
-  - {fileID: 21300000, guid: f512468ff6ff98749bb4dae289155831, type: 3}
-  - {fileID: 21300000, guid: a4103a070fa78b847bceb112c54c276a, type: 3}
-  - {fileID: 21300000, guid: 9b2dae462ebdeb54fa00e918c2768e02, type: 3}
-  - {fileID: 21300000, guid: 13717d2a1b545c54ca75346fbee9ca6f, type: 3}
-  - {fileID: 21300000, guid: 8021ec1f76065694c89adc18dfd1de78, type: 3}
-  - {fileID: 21300000, guid: 3f552c3e27321cc4eb4ba7e00b44989b, type: 3}
-  - {fileID: 21300000, guid: 9311537bd993a8844b70178842669e29, type: 3}
-  - {fileID: 21300000, guid: add3561b0560c5e43889c737c7c8ea5a, type: 3}

@@ -100,7 +100,7 @@ public class GameController : MonoBehaviour
 		}
 
 		ActivePlayer = _players[index];
-		_windowsManager.Show<PlayerTurnWindow>(ActivePlayer);
+		_windowsManager.Show<PlayerTurnWindow>();
 	}
 
 	public List<PlayerInfo> GetOpponents(PlayerInfo player)

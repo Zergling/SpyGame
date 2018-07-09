@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class PlayerTurnWindow : UpdatableWindowBase
+public class PlayerTurnWindow : WindowBase
 {
 	[SerializeField] private Text _titleText;
 
@@ -12,15 +12,16 @@ public class PlayerTurnWindow : UpdatableWindowBase
 
 	[Inject] private GameController _gameController;
 
-	protected override void OnUpdateInfo(object info)
+	protected override void OnHideStart()
 	{
-		_player = (PlayerInfo)info;
+		_player = _gameController.ActivePlayer;
 		_titleText.text = string.Format("Player {0}", _player.Id);
-	}
+	} 
 
 	public void OnMyAgentsButton()
 	{
 		Hide();
+		_windowsManager.Show<PlayerAgentsWindow>();
 	}
 
 	public void OnOppsAgentsButton()

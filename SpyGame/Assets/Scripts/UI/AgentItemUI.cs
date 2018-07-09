@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class AgentItemUI : MonoBehaviour
 {
-	public Button.ButtonClickedEvent _onClick { get { return _button.onClick; } }
+	public Button.ButtonClickedEvent OnClick { get { return _button.onClick; } }
 
 	public bool interactable
 	{
@@ -40,6 +40,14 @@ public class AgentItemUI : MonoBehaviour
 	{
 		UpdateInfo(agent);
 		if (isInMission)
+			_back.color = Color.red;
+		else
+			_back.color = Color.white;
+	}
+
+	public void SetSelected(bool selected)
+	{
+		if (selected)
 			_back.color = Color.red;
 		else
 			_back.color = Color.white;
