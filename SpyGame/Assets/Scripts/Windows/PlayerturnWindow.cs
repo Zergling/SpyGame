@@ -27,6 +27,7 @@ public class PlayerTurnWindow : WindowBase
 	public void OnOppsAgentsButton()
 	{
 		Hide();
+		_windowsManager.Show<OpponentAgentsWindow>();
 	}
 
 	public void OnMissionButton()
