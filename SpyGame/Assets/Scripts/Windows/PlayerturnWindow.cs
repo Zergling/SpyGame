@@ -33,6 +33,7 @@ public class PlayerTurnWindow : WindowBase
 	public void OnMissionButton()
 	{
 		Hide();
+		_windowsManager.Show<MissionWindow>();
 	}
 
 	public void OnJournalButton()
