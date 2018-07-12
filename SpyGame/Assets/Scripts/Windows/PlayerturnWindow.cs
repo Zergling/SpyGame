@@ -12,10 +12,10 @@ public class PlayerTurnWindow : WindowBase
 
 	[Inject] private GameController _gameController;
 
-	protected override void OnHideStart()
+	protected override void OnShowStart()
 	{
 		_player = _gameController.ActivePlayer;
-		_titleText.text = string.Format("Player {0}", _player.Id);
+		_titleText.text = string.Format("Round {0}. Player {1}", _gameController.Round, _player.Id);
 	} 
 
 	public void OnMyAgentsButton()
@@ -39,6 +39,7 @@ public class PlayerTurnWindow : WindowBase
 	public void OnJournalButton()
 	{
 		Hide();
+		_windowsManager.Show<JournalWindow>();
 	}
 
 	public void OnEndTurnButton()

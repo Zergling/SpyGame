@@ -19,6 +19,7 @@ public class GameInstaller : MonoInstaller<GameInstaller>
 		Container.BindInstance(_spriteConfig).AsSingle();
 		Container.BindInstance(_gameConfig).AsSingle();
 
+		ObjectPool.BindAll(Container, _objectPoolConfig, _mapData);
 		Container.Bind<ObjectPool>().AsSingle();
 
 		Container.Bind<SpriteManager>().AsSingle();

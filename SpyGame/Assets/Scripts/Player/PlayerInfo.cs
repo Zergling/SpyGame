@@ -102,6 +102,7 @@ public class PlayerInfo
 			result.UpdateAgentList();
 
 			result.Journal = new List<JournalEntry>();
+			result.Missions = new List<MissionInfo>();
 			return result;
 		}
 	}

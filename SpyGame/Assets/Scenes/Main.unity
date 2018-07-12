@@ -362,7 +362,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 1303388933}
-  m_PlaneDistance: -100
+  m_PlaneDistance: 0
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -618,6 +618,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114672488554070338, guid: 3f05cc71d73c55b4f9405374ac05419c,
         type: 2}
+      propertyPath: _mapData
+      value: 
+      objectReference: {fileID: 119587021}
+    - target: {fileID: 114672488554070338, guid: 3f05cc71d73c55b4f9405374ac05419c,
+        type: 2}
       propertyPath: _gameController
       value: 
       objectReference: {fileID: 119587018}
@@ -626,17 +631,6 @@ Prefab:
       propertyPath: _windowsManager
       value: 
       objectReference: {fileID: 119587020}
-    - target: {fileID: 114672488554070338, guid: 3f05cc71d73c55b4f9405374ac05419c,
-        type: 2}
-      propertyPath: _objectPoolConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: 489cb91d7897b9e43be96735865916d4,
-        type: 2}
-    - target: {fileID: 114672488554070338, guid: 3f05cc71d73c55b4f9405374ac05419c,
-        type: 2}
-      propertyPath: _mapData
-      value: 
-      objectReference: {fileID: 119587021}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3f05cc71d73c55b4f9405374ac05419c, type: 2}
   m_IsPrefabParent: 0
@@ -925,7 +919,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 87a1c47dc4363ab418f4c2a7c2bd643c, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &1531724630
+--- !u!224 &1531724631 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 224515020238890084, guid: b486c7c5834918842b9941191ee7a191,
+    type: 2}
+  m_PrefabInternal: {fileID: 1719495556}
+--- !u!1001 &1719495556
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1022,19 +1021,9 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 224652669891371742, guid: b486c7c5834918842b9941191ee7a191,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -55
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b486c7c5834918842b9941191ee7a191, type: 2}
   m_IsPrefabParent: 0
---- !u!224 &1531724631 stripped
-RectTransform:
-  m_PrefabParentObject: {fileID: 224515020238890084, guid: b486c7c5834918842b9941191ee7a191,
-    type: 2}
-  m_PrefabInternal: {fileID: 1531724630}
 --- !u!1 &1777407885
 GameObject:
   m_ObjectHideFlags: 0

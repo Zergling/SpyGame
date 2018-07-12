@@ -128,11 +128,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414720141351368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 593e478f4281c204e99820011149c533, type: 3}
+  m_Script: {fileID: 11500000, guid: b07d885f60addd749bc4a9807012c88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _button: {fileID: 114337738150576360}
   _text: {fileID: 114783208103709530}
-  _sabotageButton: {fileID: 114337738150576360}
 --- !u!114 &114737460042489918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,10 +181,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 55
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 4
     m_MaxSize: 60
     m_Alignment: 4
     m_AlignByGeometry: 0

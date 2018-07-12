@@ -57,19 +57,6 @@ public class GameController : MonoBehaviour
 			rankTwoAgents[index].SetSpy(player.Id);
 		}
 	}
-
-	private PlayerInfo GetPlayer(int id)
-	{
-		for (int i = 0; i < _players.Count; i++) 
-		{
-			var player = _players[i];
-			if (player.Id == id)
-				return player;
-		}
-
-		throw new UnityException("player with id " + id.ToString() + " does not exist");
-		return null;
-	}
 #endregion Private
 
 #region Public
@@ -109,6 +96,19 @@ public class GameController : MonoBehaviour
 		opps.AddRange(_players);
 		opps.Remove(player);
 		return opps;
+	}
+
+	public PlayerInfo GetPlayer(int id)
+	{
+		for (int i = 0; i < _players.Count; i++) 
+		{
+			var player = _players[i];
+			if (player.Id == id)
+				return player;
+		}
+
+		throw new UnityException("player with id " + id.ToString() + " does not exist");
+		return null;
 	}
 #endregion Public
 }

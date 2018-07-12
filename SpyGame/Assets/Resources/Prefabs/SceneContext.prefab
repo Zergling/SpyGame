@@ -54,6 +54,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteConfig: {fileID: 11400000, guid: 12b9e3c13cb5df8488f0158cdd63a7b9, type: 2}
   _gameConfig: {fileID: 11400000, guid: 845417418ab975640adba6b9f09bdcf3, type: 2}
+  _objectPoolConfig: {fileID: 11400000, guid: 489cb91d7897b9e43be96735865916d4, type: 2}
+  _mapData: {fileID: 0}
   _gameController: {fileID: 0}
   _windowsManager: {fileID: 0}
 --- !u!114 &114833992071813654

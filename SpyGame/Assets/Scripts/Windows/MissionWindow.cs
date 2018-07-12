@@ -19,6 +19,7 @@ public class MissionWindow : WindowBase
 	[Inject] private GameConfig _gameConfig;
 
 	[Inject] private MissionInfo.Factory _missionFactory;
+	[Inject] private JournalEntry.Factory _journalFactory;
 
 	protected override void OnInit()
 	{
@@ -166,5 +167,22 @@ public class MissionWindow : WindowBase
 
 	public void OnSubmitButtonClick()
 	{
+		MissionInfo mission = _missionFactory.Create(_activePlayer.Id, _gameController.Round, _region, _securityLevel);
+		_activePlayer.AddMission(mission);
+		JournalEntry journalEntry = _journalFactory.Create(mission, JournalEntryType.Mission);
+		_activePlayer.AddJournalEntry(journalEntry);
+
+		for (int i = 0; i < _agentsInMission.Count; i++) 
+		{
+			var agent = _agentsInMission[i];
+			if (agent.SpyOwner != -1) 
+			{
+				var opponent = _gameController.GetPlayer(agent.SpyOwner);
+				JournalEntry spyInfo = _journalFactory.Create(mission, JournalEntryType.SpyInfo);
+				opponent.AddJournalEntry(spyInfo);
+			}
+		}
+
+		Hide();
 	}
 }
