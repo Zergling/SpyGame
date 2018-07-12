@@ -76,5 +76,8 @@ public class JournalWindow : WindowBase
 
 	private void OnItemClicked(JournalItemUI item)
 	{
+		Hide();
+		_windowsManager.Hide<PlayerTurnWindow>();
+		_windowsManager.Show<MissionWindow>(item.Info.Mission);
 	}
 }

@@ -25,7 +25,6 @@ public class GameInstaller : MonoInstaller<GameInstaller>
 		Container.Bind<SpriteManager>().AsSingle();
 		Container.BindFactory<MissionInfo, MissionInfo.Factory>();
 		Container.BindFactory<AgentInfo, AgentInfo.Factory>();
-		Container.BindFactory<SabotageInfo, SabotageInfo.Factory>();
 		Container.BindFactory<JournalEntry, JournalEntry.Factory>();
 		Container.BindFactory<PlayerInfo, PlayerInfo.Factory>();
 

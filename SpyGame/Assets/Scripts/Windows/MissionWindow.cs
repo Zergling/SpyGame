@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class MissionWindow : WindowBase
+public class MissionWindow : UpdatableWindowBase
 {
 	public List<AgentItemUI> AgentItems;
 	public List<RegionSelector> RegionSelectors;
@@ -15,6 +15,8 @@ public class MissionWindow : WindowBase
 	private MissionSecurityLevel _securityLevel;
 	private PlayerInfo _activePlayer;
 
+	private MissionInfo _sabotagableMission;
+
 	[Inject] private GameController _gameController;
 	[Inject] private GameConfig _gameConfig;
 
@@ -23,6 +25,7 @@ public class MissionWindow : WindowBase
 
 	protected override void OnInit()
 	{
+		_sabotagableMission = null;
 		_agentsInMission = new List<AgentInfo>();
 
 		for (int i = 0; i < RegionSelectors.Count; i++) 
@@ -55,19 +58,37 @@ public class MissionWindow : WindowBase
 		}
 	}
 
+	protected override void OnUpdateInfo(object info)
+	{
+		_sabotagableMission = (MissionInfo)info;
+	}
+
 	protected override void OnShowStart()
 	{
 		_activePlayer = _gameController.ActivePlayer;
-		_region = Region.SouthAmerica;
+
 		_securityLevel = MissionSecurityLevel.A;
 
-		for (int i = 0; i < RegionSelectors.Count; i++)
+		if (_sabotagableMission == null) 
+			_region = Region.SouthAmerica;
+		else 
+			_region = _sabotagableMission.Region;
+
+		for (int i = 0; i < RegionSelectors.Count; i++) 
+		{
 			RegionSelectors[i].SetSelected(_region == RegionSelectors[i].Region, Color.red);
+			RegionSelectors[i].interactable = (_sabotagableMission == null);
+		}
 
 		for (int i = 0; i < SecuritySelectors.Count; i++)
 			SecuritySelectors[i].SetSelected(_securityLevel == SecuritySelectors[i].SecurityLevel, Color.red);
 		
 		UpdateAgentItems();
+	}
+
+	protected override void OnHideStart()
+	{
+		_sabotagableMission = null;
 	}
 
 	protected override void OnHideEnd()
@@ -178,9 +199,22 @@ public class MissionWindow : WindowBase
 			if (agent.SpyOwner != -1) 
 			{
 				var opponent = _gameController.GetPlayer(agent.SpyOwner);
-				JournalEntry spyInfo = _journalFactory.Create(mission, JournalEntryType.SpyInfo);
+				JournalEntry spyInfo = null;
+
+				if (_sabotagableMission == null)
+					spyInfo = _journalFactory.Create(mission, JournalEntryType.SpyInfo);
+				else
+					spyInfo = _journalFactory.Create(_sabotagableMission, JournalEntryType.SpyInfo);
+
 				opponent.AddJournalEntry(spyInfo);
 			}
+		}
+
+		if (_sabotagableMission != null) 
+		{
+			var sabotagedOpponent = _gameController.GetPlayer(_sabotagableMission.PlayerId);
+			JournalEntry sabotageEntry = _journalFactory.Create(_sabotagableMission, JournalEntryType.Sabotage);
+			sabotagedOpponent.AddJournalEntry(sabotageEntry);
 		}
 
 		Hide();
