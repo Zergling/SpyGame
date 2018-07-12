@@ -33,6 +33,33 @@ public class PlayerInfo
 		}
 	}
 
+	private void CheckJournal()
+	{
+		int i = 0, j = 0;
+		while (i < Journal.Count) 
+		{
+			var mission = Journal[i].Mission;
+			var entryType = Journal[i].EntryType;
+
+			j = i+1;
+			if (j >= Journal.Count)
+				break;
+
+			while (j < Journal.Count) 
+			{
+				var theMisson = Journal[j].Mission;
+				var theEntryType = Journal[j].EntryType;
+
+				if (mission == theMisson && entryType == theEntryType)
+					Journal.Remove(Journal[j]);
+				else
+					j++;
+			}
+
+			i++;
+		}
+	}
+
 	public void SwapAgents(AgentInfo one, AgentInfo two)
 	{
 		AgentsDict[one.Region].RemoveAt(one.Rank);
@@ -68,6 +95,7 @@ public class PlayerInfo
 	public void AddJournalEntry(JournalEntry entry)
 	{
 		Journal.Insert(0, entry);
+		CheckJournal();
 	}
 
 	public void AddMission(MissionInfo mission)
