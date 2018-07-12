@@ -7,10 +7,12 @@ public class ObjectPool
 {
 	private JournalPagePool _journalPagePool;
 
-	[Inject] private MapData _mapData;
+	private MapData _mapData;
 
-	public ObjectPool(JournalPagePool journalPagePool)
+	public ObjectPool(MapData mapData, JournalPagePool journalPagePool)
 	{
+		_mapData = mapData;
+
 		_journalPagePool = journalPagePool;
 	}
 
@@ -21,9 +23,17 @@ public class ObjectPool
 
 	public void ReturnJournalPage(JournalPage page)
 	{
-		page.transform.SetParent(_mapData.JournalPageContainer);
 		_journalPagePool.Despawn(page);
+		page.transform.SetParent(_mapData.JournalPageContainer);
 	}
 
-	public class JournalPagePool: MonoMemoryPool<JournalPage> {}
+	public class JournalPagePool : MonoMemoryPool<JournalPage> {}
+
+	public static void BindAll(DiContainer container, ObjectPoolConfig config, MapData mapData)
+	{
+		container.BindMemoryPool<JournalPage, JournalPagePool>()
+			.WithInitialSize(config.journalPage.count)
+			.FromComponentInNewPrefab(config.journalPage.poolObject)
+			.UnderTransform(mapData.JournalPageContainer);
+	}
 }

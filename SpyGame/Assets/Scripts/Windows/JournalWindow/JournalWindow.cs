@@ -3,79 +3,81 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class JournalWindow : UpdatableWindowBase 
+public class JournalWindow : WindowBase 
 {
-	[SerializeField] private Transform _pagesContainer;
+	[SerializeField] private Transform _pageContainer;
 
-	private Player _player;
+	private PlayerInfo _playerInfo;
+
 	private List<JournalPage> _pages;
 	private List<JournalItemUI> _items;
 
-	private bool _isRedirected;
-
+	[Inject] private GameController _gameController;
 	[Inject] private ObjectPool _objectPool;
-	[Inject] private GameConfig _gameConfig;
-
-	[Inject] private SabotagePrepareInfo.Factory _sabotageFactory;
 
 	protected override void OnInit()
 	{
-		base.OnInit();
 		_pages = new List<JournalPage>();
 		_items = new List<JournalItemUI>();
 	}
 
-	protected override void OnUpdateInfo(object info)
+	protected override void OnShowStart()
 	{
-		_isRedirected = false;
-		_player = (Player)info;
-		int entriesCount = _player.Journal.Count;
-		int pagesCount = (entriesCount % _gameConfig.journalEntriesPerPage == 0) ? entriesCount / _gameConfig.journalEntriesPerPage : (entriesCount / _gameConfig.journalEntriesPerPage) + 1;
+		_playerInfo = _gameController.ActivePlayer;
+
+		int pagesCount = _playerInfo.Journal.Count / 4;
+		if (_playerInfo.Journal.Count % 4 != 0)
+			pagesCount++;
+
 		for (int i = 0; i < pagesCount; i++) 
 		{
 			var page = _objectPool.GetJournalPage();
-			page.transform.SetParent(_pagesContainer);
+			page.transform.SetParent(_pageContainer);
 			page.transform.localScale = Vector3.one;
 			page.transform.position = Vector3.zero;
 			_pages.Add(page);
-			_items.AddRange(page.Entries);
+			_items.AddRange(page.Items);
 		}
 
-		for (int i = 0; i < _items.Count; i++) 
-		{
-			if (i < entriesCount) 
-			{
-				_items[i].gameObject.SetActive(true);
-				JournalEntry entry = _player.Journal[i];
-				_items[i].UpdateInfo(entry, delegate {
-					OnSabotageButtonClick(entry);
-				});
-			}
-			else
-				_items[i].gameObject.SetActive(false);
-		}
+		UpdateItems();
 	}
 
 	protected override void OnHideStart()
 	{
+		_items.Clear();
 		for (int i = 0; i < _pages.Count; i++)
 			_objectPool.ReturnJournalPage(_pages[i]);
 
 		_pages.Clear();
-		_items.Clear();
 	}
 
 	protected override void OnHideEnd()
 	{
-		if (!_isRedirected)
-			_windowsManager.Show<PlayerWindow>(_player);
+		_windowsManager.Show<PlayerTurnWindow>();
 	}
 
-	public void OnSabotageButtonClick(JournalEntry entry)
+	private void UpdateItems()
 	{
-		_isRedirected = true;
-		SabotagePrepareInfo prepareInfo = _sabotageFactory.Create(_player, entry);
+		var journal = _playerInfo.Journal;
+		for (int i = 0; i < _items.Count; i++) 
+		{
+			var item = _items[i];
+			item.OnClick.RemoveAllListeners();
+			if (i < journal.Count)
+			{
+				item.gameObject.SetActive(true);
+				item.OnClick.AddListener(delegate { OnItemClicked(item); });
+				item.UpdateInfo(journal[i]);
+			}
+			else
+				item.gameObject.SetActive(false);
+		}
+	}
+
+	private void OnItemClicked(JournalItemUI item)
+	{
 		Hide();
-		_windowsManager.Show<OperationsWindow>(prepareInfo);
+		_windowsManager.Hide<PlayerTurnWindow>();
+		_windowsManager.Show<MissionWindow>(item.Info.Mission);
 	}
 }

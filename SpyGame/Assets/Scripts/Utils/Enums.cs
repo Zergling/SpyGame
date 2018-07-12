@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum Region
 {
-	Unknown 		= -1,
+	None	 		= -1,
 	SouthAmerica 	= 0,
 	Africa			= 1,
 	Asia 			= 2,
@@ -14,8 +14,17 @@ public enum Region
 
 public enum JournalEntryType
 {
-	Unknown = -1,
-	MyMission = 0,
-	OtherPlayerMission = 1,
-	Sabotage = 2,
+	None 		= -1,
+	Mission 	= 0,
+	SpyInfo 	= 1,
+	Sabotage 	= 2,
+}
+
+public enum MissionSecurityLevel
+{
+	None 	= -1,
+	A 		= 0,
+	B 		= 1,
+	C 		= 2,
+	D 		= 3,
 }

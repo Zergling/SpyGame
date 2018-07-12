@@ -10,15 +10,21 @@ public class OpponentAgentsWindowEditor : Editor
 	{
 		DrawDefaultInspector();
 
-		if (GUILayout.Button("UPDATE PAGES LIST"))
-			UpdatePagesList();
+		if (GUILayout.Button("UPDATE LISTS"))
+			UpdateLists();
 	}
 
-	private void UpdatePagesList()
+	private void UpdateLists()
 	{
 		OpponentAgentsWindow window = (OpponentAgentsWindow)target;
-		var pages = window.AgentsPages;
-		pages.Clear();
-		pages.AddRange(window.PagesContainer.GetComponentsInChildren<AgentsPage>(true));
+
+		var agentItems = window.AgentItems;
+		var selectors = window.OpponentSelectors;
+
+		agentItems.Clear();
+		agentItems.AddRange(window.GetComponentsInChildren<AgentItemUI>(true));
+
+		selectors.Clear();
+		selectors.AddRange(window.GetComponentsInChildren<OpponentSelectButton>(true));
 	}
 }

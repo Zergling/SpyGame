@@ -104,10 +104,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1428846132019576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aeef49ec42d256749aa9505c58c627cc, type: 3}
+  m_Script: {fileID: 11500000, guid: d4007ee69e304f64bbe094e058a27177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pagesContainer: {fileID: 224623160474869324}
+  _pageContainer: {fileID: 224623160474869324}
 --- !u!114 &114149343833380718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -243,9 +243,9 @@ MonoBehaviour:
   PrevButton: {fileID: 0}
   NextButton: {fileID: 0}
   transitionSpeed: 7.5
-  UseFastSwipe: 0
-  FastSwipeThreshold: 100
-  SwipeVelocityThreshold: 100
+  UseFastSwipe: 1
+  FastSwipeThreshold: 50
+  SwipeVelocityThreshold: 50
   MaskArea: {fileID: 0}
   MaskBuffer: 1
   JumpOnEnable: 1

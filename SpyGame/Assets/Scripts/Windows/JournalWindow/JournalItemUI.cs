@@ -2,46 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
-using UnityEngine.Events;
 
-public class JournalItemUI : MonoBehaviour
+public class JournalItemUI : MonoBehaviour 
 {
+	public Button.ButtonClickedEvent OnClick { get { return _button.onClick; } }
+	public JournalEntry Info { get; private set; }
+
+	[SerializeField] private Button _button;
 	[SerializeField] private Text _text;
-	[SerializeField] private Button _sabotageButton;
 
-	private JournalEntry _entry;
-
-	public void UpdateInfo(JournalEntry entry, UnityAction callback = null)
+	public void UpdateInfo(JournalEntry info)
 	{
-		_sabotageButton.onClick.RemoveAllListeners();
+		Info = info;
+		MissionInfo mission = info.Mission;
 
-		_entry = entry;
-		if (_entry.JournalOwnerId == _entry.PlayerId || _entry.IsSabotaged)
-			_sabotageButton.gameObject.SetActive(false);
-		else
-			_sabotageButton.gameObject.SetActive(true);
-
-		switch (_entry.entryType) 
+		switch (info.EntryType) 
 		{
-			case JournalEntryType.MyMission:
-				_text.text = string.Format("I commited a mission in {0}", _entry.Region);
+			case JournalEntryType.Mission:
+				_text.text = string.Format("Round {0}. I commited a misson in {1}. Secret level is {2}", mission.Round, mission.Region, mission.SecurityLevel);
+				_button.gameObject.SetActive(false);
 				break;
 
-			case JournalEntryType.OtherPlayerMission:
-				_text.text = string.Format("Player {0} commited a mission in {1}", _entry.PlayerId, _entry.Region);
+			case JournalEntryType.SpyInfo:
+				_text.text = string.Format("Round {0}. Player {1} commited a misson in {2}.", mission.Round, mission.PlayerId, mission.Region);
+				_button.gameObject.SetActive(true);
 				break;
 
 			case JournalEntryType.Sabotage:
-				_text.text = string.Format("Your mission in {0} was sabotaged", _entry.Region);
-				_sabotageButton.gameObject.SetActive(false);
-				break;
-
-			default:
+				_text.text = string.Format("Round {0}. Your mission from round {1} in {2} was sabotaged.", Info.Round, mission.Round, mission.Region);
+				_button.gameObject.SetActive(false);
 				break;
 		}
-
-		if (callback != null)
-			_sabotageButton.onClick.AddListener(callback);
 	}
 }

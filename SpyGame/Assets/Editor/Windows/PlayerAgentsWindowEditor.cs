@@ -4,22 +4,22 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(PlayerAgentsWindow))]
-public class PlayerAgentsWindowEditor : Editor
+public class PlayerAgentsWindowEditor : Editor 
 {
 	public override void OnInspectorGUI()
 	{
 		DrawDefaultInspector();
 
-		if (GUILayout.Button("UPDATE AGENTS LIST"))
-			UpdateAgentsList();
+		if (GUILayout.Button("UPDATE LIST"))
+			UpdateAgentItemsList();
 	}
 
-	private void UpdateAgentsList()
+	private void UpdateAgentItemsList()
 	{
 		PlayerAgentsWindow window = (PlayerAgentsWindow)target;
-		var list = window.AgentsList;
+		var list = window.AgentItems;
 		list.Clear();
-
-		list.AddRange(window.AgentsItemsContainer.GetComponentsInChildren<AgentItemUI>(true));
+		AgentItemUI[] items = window.GetComponentsInChildren<AgentItemUI>(true);
+		list.AddRange(items);
 	}
 }
