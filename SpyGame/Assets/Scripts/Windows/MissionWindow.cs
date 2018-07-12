@@ -190,7 +190,7 @@ public class MissionWindow : UpdatableWindowBase
 	{
 		MissionInfo mission = _missionFactory.Create(_activePlayer.Id, _gameController.Round, _region, _securityLevel);
 		_activePlayer.AddMission(mission);
-		JournalEntry journalEntry = _journalFactory.Create(mission, JournalEntryType.Mission);
+		JournalEntry journalEntry = _journalFactory.Create(_gameController.Round, mission, JournalEntryType.Mission);
 		_activePlayer.AddJournalEntry(journalEntry);
 
 		for (int i = 0; i < _agentsInMission.Count; i++) 
@@ -202,9 +202,9 @@ public class MissionWindow : UpdatableWindowBase
 				JournalEntry spyInfo = null;
 
 				if (_sabotagableMission == null)
-					spyInfo = _journalFactory.Create(mission, JournalEntryType.SpyInfo);
+					spyInfo = _journalFactory.Create(_gameController.Round, mission, JournalEntryType.SpyInfo);
 				else
-					spyInfo = _journalFactory.Create(_sabotagableMission, JournalEntryType.SpyInfo);
+					spyInfo = _journalFactory.Create(_gameController.Round, _sabotagableMission, JournalEntryType.SpyInfo);
 
 				opponent.AddJournalEntry(spyInfo);
 			}
@@ -213,7 +213,7 @@ public class MissionWindow : UpdatableWindowBase
 		if (_sabotagableMission != null) 
 		{
 			var sabotagedOpponent = _gameController.GetPlayer(_sabotagableMission.PlayerId);
-			JournalEntry sabotageEntry = _journalFactory.Create(_sabotagableMission, JournalEntryType.Sabotage);
+			JournalEntry sabotageEntry = _journalFactory.Create(_gameController.Round, _sabotagableMission, JournalEntryType.Sabotage);
 			sabotagedOpponent.AddJournalEntry(sabotageEntry);
 		}
 

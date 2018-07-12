@@ -29,7 +29,7 @@ public class JournalItemUI : MonoBehaviour
 				break;
 
 			case JournalEntryType.Sabotage:
-				_text.text = string.Format("Round {0}. Your mission in {1} was sabotaged.", mission.Round, mission.Region);
+				_text.text = string.Format("Round {0}. Your mission from round {1} in {2} was sabotaged.", Info.Round, mission.Round, mission.Region);
 				_button.gameObject.SetActive(false);
 				break;
 		}
